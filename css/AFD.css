@@ -11,7 +11,7 @@
     margin: 0;
     padding: 0;
     font-family: sans-serif;
-    background: #34495e;
+    background: #191919;
     display: block;
     text-align: center;
   }
@@ -21,9 +21,9 @@ input[type = "text"]{
     display: block;
     margin: 10px auto;
     text-align: center;
-    border: 2px solid #3498db;
+    border: 2px solid #205477;
     padding: 10px 5px;
-    width: 150px;
+    width: 250px;
     outline: none;
     color: white;
     border-radius: 24px;
@@ -31,7 +31,7 @@ input[type = "text"]{
   }
  input[type = "text"]:focus{
     width: 280px;
-    border-color: #2ecc71;
+    border-color: #0779eb;
     background-color:rgb(32, 29, 32); 
   }
 button{
@@ -71,6 +71,11 @@ button:hover{
   .navbar a {
     color: whitesmoke;
     font-size: 20px;
+    text-decoration: none;
+  }
+
+  .navbar a:hover{
+    color:#2ecc71;
   }
 
   #box{

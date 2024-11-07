@@ -107,4 +107,9 @@ html, body {
 .navbar a {
   color: whitesmoke;
   font-size: 20px;
+  text-decoration: none;
+}
+
+.navbar a:hover{
+  color:#2ecc71;
 }
