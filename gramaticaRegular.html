@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/gramaticaRegular.css" />
+    <title>Gramática Regular</title>
+  </head>
+  <body>
+    <script type="text/javascript" src="js/gramaticaRegular.js"></script>
+    <div class="navbar">
+      <a href="./expressaoRegular.html">Expressão Regular</a>
+      <a href="./gramaticaRegular.html">Gramática Regular</a>
+    </div>
+    <div class="box">
+      <div class="ctnFlex">
+        <input type="button" id="new-prod" class="btn" onclick="AdicionarRegra()" value="Nova Linha"></input>
+        <input type="button"id="reset" class="btn" onclick="resetar()" value="Resetar"></input>
+      </div>
+      <form class="container">
+        <div class="ctnFlex">
+          <div class="col-nt">
+            <input
+              type="text"
+              id="start-symbol"
+              class="form-control"
+              maxlength="1"
+              value="S"
+              
+            />
+          </div>
+          <div id="arrow">→</div>
+          <div class="col-pr">
+            <input type="text" class="form-control" id="start-grammar" placeholder="ε" />
+          </div>
+        </div>
+      </form>
+      <p>Teste</p>
+      <input type="text" name="test" class="input-test" id="input-0" cols="10" rows="7" placeholder="Ex: aab"></input>
+      
+      <input type="button" id="test" class="btn" onclick="validarEntradas()" value="Testar"></input>
+        
+      
+    </div>
+      
+    </div>
+  </body>
+</html>
