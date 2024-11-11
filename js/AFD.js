@@ -256,6 +256,12 @@ function isAcceptedByDFA(expression) {
         }
     }
 
+    transition = linkDataArray.find(link => link.from === currentState && link.text === "&");
+        while (transition) {
+            currentState = transition.to;
+            transition = linkDataArray.find(link => link.from === currentState && link.text === "&");
+        }
+
     // Verifique se o estado atual é um estado final
     const finalNode = nodeDataArray.find(node => node.id === currentState && node.isFinal);
     return !!finalNode;
