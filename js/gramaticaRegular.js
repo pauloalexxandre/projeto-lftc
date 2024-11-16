@@ -1,12 +1,17 @@
 let entradas = 0;
 let alfabeto=["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
 let inputs = 1;
-function validarGramatica(gramatica, valor) {
+function validarGramatica(gramatica) {
     let auxArray = new Map();
 
     gramatica.forEach(item => {
-      auxArray.set(item[0], `${item[1]}`);
+        if (auxArray.has(item[0])) { 
+            auxArray.set(item[0], `(${auxArray.get(item[0])}|${item[1]})`); 
+        } else { 
+            auxArray.set(item[0], item[1]); 
+        }
     });
+
 
 // ER recebe regras de gramática
     let ER = substituirGramatica(auxArray.get('S'), auxArray);
@@ -16,19 +21,19 @@ function validarGramatica(gramatica, valor) {
 
     ER = ER.replace("ε", "");
 
+    
     var regexp = new RegExp(`^(${ER})$`);
 
-    return regexp.test(valor);
+    return regexp;
   }
 
 
 // Função para transformar a gramática regular em expressão regular
 function substituirGramatica(valor, gramatica) { 
-    
     let novaString = valor;
-    for(let i = 0; i < valor.length;i++) {
-        if (gramatica.has(valor[i])) {
-            novaString = novaString.replace(valor[i], `(${gramatica.get(valor[i])})`);
+    for(const element of valor) {
+        if (gramatica.has(element)) {
+            novaString = novaString.replace(element, `${gramatica.get(element)}`);
         }
     }
 
@@ -43,7 +48,7 @@ function resetar() {
 function AdicionarRegra() {     // Função para adicionar nova entrada de regra 
     let prod  = "<div class='ctnFlex'>"
         + "<div class='col-nt'>"
-        + `<input type='text' id='key-${entradas}' value ='${alfabeto[entradas]} 'class='form-control' />`
+        + `<input type='text' id='key-${entradas}' value ='${alfabeto[entradas]}'class='form-control' />`
         + "</div>"
         + "<div id='arrow'>→</div>"
         + "<div class='col-pr'>"
@@ -69,10 +74,28 @@ function validarEntradas() {
     }
 
         let inputValor = $(`#input-0`).val();
-        let resultado = validarGramatica(gramatica, inputValor);
+        let resultado = validarGramatica(gramatica);
 
-        if(resultado)
+        if(resultado.test(inputValor))
             $(`#input-0`).css("background-color", '#67e480');
         else
             $(`#input-0`).css("background-color", '#e96379');
+}
+
+function gr_er(){
+    let valor = $('#start-grammar').val();
+    let gramatica = [['S', valor]];
+
+    for(let i = 0; i < entradas; i++) {         // Verifica o total de entradas
+        let key = $(`#key-${i}`).val();
+        let valor = $(`#value-${i}`).val();
+
+        gramatica.push([key, valor])
+    }
+
+    let resultado = validarGramatica(gramatica);
+    localStorage.setItem('resultadoER', resultado);
+    window.location.href = "expressaoRegular.html";
+
+
 }

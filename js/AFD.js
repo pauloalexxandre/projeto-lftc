@@ -220,7 +220,6 @@ function verifyExpression() {
     const txt = document.getElementById("txtTest");
     const result = isAcceptedByDFA(txt.value);
     result ? txt.style.borderColor = "#42f542" : txt.style.borderColor = "red"
-    //alert(result ? "A expressão é aceita." : "A expressão não é aceita.");
 }
 
 function isAcceptedByDFA(expression) {
@@ -257,12 +256,59 @@ function isAcceptedByDFA(expression) {
     }
 
     transition = linkDataArray.find(link => link.from === currentState && link.text === "&");
-        while (transition) {
-            currentState = transition.to;
-            transition = linkDataArray.find(link => link.from === currentState && link.text === "&");
-        }
+    while (transition) {
+        currentState = transition.to;
+        transition = linkDataArray.find(link => link.from === currentState && link.text === "&");
+    }
 
     // Verifique se o estado atual é um estado final
     const finalNode = nodeDataArray.find(node => node.id === currentState && node.isFinal);
     return !!finalNode;
 }
+
+function afd_re() {
+    const nodeDataArray = myDiagram.model.nodeDataArray;
+
+    // Encontre o estado inicial
+    const startNode = nodeDataArray.find(node => node.isStart);
+    if (!startNode) {
+        alert("Não há estado inicial definido.");
+        return false;
+    }
+
+    const finalNodes = nodeDataArray.filter(node => node.isFinal);
+    let expressions = [];
+    path([startNode], "", expressions, finalNodes);
+
+    // Combinar todas as expressões em uma única expressão regular
+    let regex = "^(" + expressions.join('|') + ")$";
+    localStorage.setItem('resultadoER', regex);
+    window.location.href = "expressaoRegular.html";
+}
+
+function path(nodes, _path = "", expressions = ["^"], finalNodes) {
+    const nodeDataArray = myDiagram.model.nodeDataArray;
+    const linkDataArray = myDiagram.model.linkDataArray;
+
+    nodes.forEach(node => {
+        if (finalNodes.some(finalNode => finalNode.id === node.id)) {
+            expressions.push(_path);
+        } else {
+            let links = linkDataArray.filter(link => link.from === node.id);
+            links.forEach(link => {
+                if (link.from === link.to)
+                    _path = _path + link.text + "*";
+                else {
+                        let nextNodes = nodeDataArray.filter(node => node.id === link.to);
+                    if (nextNodes.length > 0) {
+                        if (link.text === "&")
+                            path(nextNodes, _path, expressions, finalNodes);
+                        else path(nextNodes, _path + link.text, expressions, finalNodes);
+                    }
+                }
+            });
+        }
+    });
+}
+
+

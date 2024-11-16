@@ -38,7 +38,7 @@ button{
 
     background: none;
     display: block;
-    margin: 20px auto;
+    margin: 5px;
     text-align: center;
     border: 2px solid #2ecc71;
     padding: 10px 40px;
@@ -76,6 +76,12 @@ button:hover{
 
   .navbar a:hover{
     color:#2ecc71;
+  }
+
+  #btn{
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
   }
 
   #box{

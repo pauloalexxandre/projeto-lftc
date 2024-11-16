@@ -1,64 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="css/expressaoRegular.css" />
-    <title>Expressão Regular</title>
-  </head>
-  <body>
-    <script type="text/javascript" src="js/regex.js"></script>
-    
-    <script>
-     
-      var validade=false;
-      function checkER(){
-        
-        var expressao = document.getElementById('input-ER').value;      // Recebe o valor da expressão 
-        var teste = document.getElementById('ER-Teste').value;      // Recebe o valor do teste
-        if (expressao && teste) {     // Verifica se todos os campos foram preenchidos
-          
-      if (expressao) { 
-        var regexp = new RegExp(expressao);     // Opera a expressão do regex
-        if (regexp.test(teste)) {
-          validade = true;      // Caso passe validade recebe true
-        } else validade = false;      // Senão, recebe false
-        verificaValidade(validade)
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="css/expressaoRegular.css" />
+  <title>Expressão Regular</title>
+</head>
+
+<body>
+
+  <script>
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+      let resultado = localStorage.getItem('resultadoER');
+      if (resultado != null) {
+        resultado = resultado.replaceAll("/", "");
+        document.getElementById('input-ER').value = resultado;
       }
+    })
+
+
+    var validade = false;
+    function checkER() {
+
+      var expressao = document.getElementById('input-ER').value;      // Recebe o valor da expressão 
+      var teste = document.getElementById('ER-Teste').value;      // Recebe o valor do teste
+      if (expressao && teste) {     // Verifica se todos os campos foram preenchidos
+
+        if (expressao) {
+          var regexp = new RegExp(expressao);     // Opera a expressão do regex
+          if (regexp.test(teste)) {
+            validade = true;      // Caso passe validade recebe true
+          } else validade = false;      // Senão, recebe false
+          verificaValidade(validade)
         }
-        else{
-          alert('dados nao inseridos');
-        }
       }
-      function verificaValidade(validade){      // Muda a cor do background do input de acordo com a validades
-        if(validade)
-          $(`#ER-Teste`).css("background-color", '#67e480');
-        else
-            $(`#ER-Teste`).css("background-color", '#e96379');
-        
+      else {
+        alert('dados nao inseridos');
       }
-    </script>
-    <div class="navbar">
-      <a href="./expressaoRegular.html">Expressão Regular</a>
-      <a href="./gramaticaRegular.html">Gramática Regular</a>
-      <a href="./AFD.html">AFD&</a>
+    }
+    function verificaValidade(validade) {      // Muda a cor do background do input de acordo com a validades
+      if (validade)
+        $(`#ER-Teste`).css("background-color", '#67e480');
+      else
+        $(`#ER-Teste`).css("background-color", '#e96379');
+
+    }
+  </script>
+  <div class="navbar">
+    <a href="./expressaoRegular.html">Expressão Regular</a>
+    <a href="./gramaticaRegular.html">Gramática Regular</a>
+    <a href="./AFD.html">AFD&</a>
+  </div>
+  <div class="box">
+    <h1>Expressão Regular</h1>
+    <div>
+      <label for="txtRegex">Expressão:</label>
+      <input type="text" name="ER" id="input-ER" placeholder="^[expressao]$" />
     </div>
-    <div class="box">
-      <h1>Expressão Regular</h1>
-      <div>
-        <label for="txtRegex">Expressão:</label>
-        <input type="text" name="ER" id="input-ER" placeholder="^[expressao]$"/>
-      </div>
-      <div>
-        <label for="txtTeste">Teste:</label>
-        <input type="text" name="ERTeste" id="ER-Teste" placeholder="ex: abc" />
-        <input type="button" onClick='checkER()' id='validar-testes'value="Teste"></input>
-      </div>
-      <a class="carEspeciais"
-    href="https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Guide/Regular_Expressions#uso_dos_caracteres_especiais"
-    >Caracteres Especiais</a>
+    <div>
+      <label for="txtTeste">Teste:</label>
+      <input type="text" name="ERTeste" id="ER-Teste" placeholder="ex: abc" />
+      <input type="button" onClick='checkER()' id='validar-testes' value="Teste"></input>
     </div>
-   
-  </body>
+    <a class="carEspeciais"
+      href="https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Guide/Regular_Expressions#uso_dos_caracteres_especiais">Caracteres
+      Especiais</a>
+  </div>
+
+</body>
+
 </html>

@@ -22,7 +22,10 @@
         <div id="box">
           <label for="txtTest">Expressão</label>
           <input type="text" name="txtTest" id="txtTest">
-          <button onclick="verifyExpression()">Verificar</button>
+          <div id="btn">
+            <button id="btn_verify" onclick="verifyExpression()">Verificar</button>
+            <button id="btn_re" onclick="afd_re()">Converter para ER</button>
+          </div>
         </div>
 
         <textarea id="mySavedModel" style="width: 100%; height: 0; visibility: hidden;">{ "class": "go.GraphLinksModel",
