@@ -286,12 +286,84 @@ function afd_re() {
     window.location.href = "expressaoRegular.html";
 }
 
+function afd_gr() {
+    const nodeDataArray = myDiagram.model.nodeDataArray;
+    const linkDataArray = myDiagram.model.linkDataArray;
+    let alfabeto = ["S", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "T", "U", "V", "W", "X", "Y", "Z"];
+    let gramatica = [];
+    let startGramatica = [];
+    let count = 1;
+    const keys = [];
+
+
+    const startNode = nodeDataArray.find(node => node.isStart);
+    if (!startNode) {
+        alert("Não há estado inicial definido.");
+        return false;
+    }
+
+    nodeDataArray.forEach(node => {
+        if (node === startNode) {
+            keys.unshift(
+                {
+                    id: node.id,
+                    key: "S"
+                })
+        } else {
+            keys.push({
+                id: node.id,
+                key: alfabeto[count]
+            })
+            count++;
+        }
+    })
+
+    const finalNodes = nodeDataArray.filter(node => node.isFinal);
+
+    linkDataArray.forEach(link => {
+        let key = keys.find(k => k.id === link.from);
+        let nextKey = keys.find(k => k.id === link.to);
+        if (key.id === startNode.id) {
+            if (link.text === "&")
+                startGramatica.push([key.key, nextKey.key]);
+            else startGramatica.push([key.key, link.text + nextKey.key]);
+        } else {
+            if (link.text === "&")
+                gramatica.push([key.key, nextKey.key]);
+            else gramatica.push([key.key, link.text + nextKey.key]);
+        }
+    });
+
+    finalNodes.forEach((n) =>{
+        let key = keys.find(k => k.id === n.id);
+        gramatica.push([key.key,'ε']);
+    })
+
+    gramatica.sort(function (a, b) {
+        let x = a[0].toLowerCase();
+        let y = b[0].toLowerCase();
+        if (x < y) { return -1; }
+        if (x > y) { return 1; }
+        return 0;
+    });
+
+    gramaticaFinal = startGramatica.concat(gramatica);
+    localStorage.setItem('resultadoGR', gramaticaFinal);
+    window.location.href = "gramaticaRegular.html";
+}
+
 function path(nodes, _path = "", expressions = ["^"], finalNodes) {
     const nodeDataArray = myDiagram.model.nodeDataArray;
     const linkDataArray = myDiagram.model.linkDataArray;
 
     nodes.forEach(node => {
         if (finalNodes.some(finalNode => finalNode.id === node.id)) {
+            let links = linkDataArray.filter(link => link.from === node.id && link.from === link.to);
+            if (links.length > 0) {
+                links.forEach(link => {
+                    _path = _path + link.text + "*";
+                });
+            }
             expressions.push(_path);
         } else {
             let links = linkDataArray.filter(link => link.from === node.id);
@@ -299,7 +371,7 @@ function path(nodes, _path = "", expressions = ["^"], finalNodes) {
                 if (link.from === link.to)
                     _path = _path + link.text + "*";
                 else {
-                        let nextNodes = nodeDataArray.filter(node => node.id === link.to);
+                    let nextNodes = nodeDataArray.filter(node => node.id === link.to);
                     if (nextNodes.length > 0) {
                         if (link.text === "&")
                             path(nextNodes, _path, expressions, finalNodes);

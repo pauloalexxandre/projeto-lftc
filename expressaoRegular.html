@@ -18,6 +18,7 @@
       if (resultado != null) {
         resultado = resultado.replaceAll("/", "");
         document.getElementById('input-ER').value = resultado;
+        localStorage.removeItem('resultadoER');
       }
     })
 
