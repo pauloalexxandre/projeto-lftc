@@ -140,3 +140,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
         localStorage.removeItem('resultadoGR');
     }
 })
+
+function gr_afd() {
+    let valor = $('#start-grammar').val();
+    let key = $('#start-symbol').val();
+    let gramatica = [[inicio, valor]];
+    let nodeDataArray = [];
+    let linkDataArray = [];
+
+    for (let i = 0; i < entradas; i++) {         // Verifica o total de entradas
+        key = $(`#key-${i}`).val();
+        valor = $(`#value-${i}`).val();
+        gramatica.push([key, valor]);
+    }
+}

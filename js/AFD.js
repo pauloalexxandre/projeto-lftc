@@ -334,9 +334,9 @@ function afd_gr() {
         }
     });
 
-    finalNodes.forEach((n) =>{
+    finalNodes.forEach((n) => {
         let key = keys.find(k => k.id === n.id);
-        gramatica.push([key.key,'ε']);
+        gramatica.push([key.key, 'ε']);
     })
 
     gramatica.sort(function (a, b) {
@@ -361,7 +361,12 @@ function path(nodes, _path = "", expressions = ["^"], finalNodes) {
             let links = linkDataArray.filter(link => link.from === node.id && link.from === link.to);
             if (links.length > 0) {
                 links.forEach(link => {
-                    _path = _path + link.text + "*";
+                    if (link.text != "&")
+                       { _path = _path + link.text + "*";
+
+                       }else{
+                        _path = _path + 'ε';
+                       }
                 });
             }
             expressions.push(_path);
